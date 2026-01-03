@@ -16,6 +16,7 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(cors()); // Habilitar CORS para permitir peticiones desde Flutter (u otros orígenes)
 app.use(express.json()); // Parsear el cuerpo de las peticiones a JSON
+app.use(express.static('public')); // Servir archivos estáticos (Dashboard Admin)
 
 // Documentación Swagger
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));

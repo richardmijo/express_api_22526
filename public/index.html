@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Notificaciones</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <!-- Login Section -->
+        <div id="loginSection" class="card">
+            <h1>Acceso Admin</h1>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Usuario</label>
+                    <input type="text" name="username" placeholder="Ingresa tu usuario" required>
+                </div>
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <input type="password" name="password" placeholder="••••••••" required>
+                </div>
+                <button type="submit">Ingresar</button>
+            </form>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div id="dashboardSection" class="card hidden">
+            <h1>Enviar Push 🚀</h1>
+            <form id="notificationForm">
+                <div class="form-group">
+                    <label>ID Usuario Destino</label>
+                    <input type="number" name="userId" placeholder="Ej: 1" required>
+                </div>
+                <div class="form-group">
+                    <label>Título</label>
+                    <input type="text" name="title" placeholder="Hola Mundo" required>
+                </div>
+                <div class="form-group">
+                    <label>Mensaje (Body)</label>
+                    <textarea name="body" rows="3" placeholder="Contenido de la notificación..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>URL de Imagen (Opcional)</label>
+                    <input type="url" name="image" placeholder="https://ejemplo.com/imagen.png">
+                </div>
+                <div class="form-group">
+                    <label>Datos Extra (JSON Opcional)</label>
+                    <textarea name="data" rows="2" placeholder='{"ruta": "/perfil"}'></textarea>
+                </div>
+                <button type="submit">Enviar Notificación</button>
+            </form>
+            <button id="logoutBtn" class="logout-btn">Cerrar Sesión</button>
+        </div>
+
+        <div id="messageBox" class="status-message"></div>
+    </div>
+    <script src="js/app.js"></script>
+</body>
+
+</html>

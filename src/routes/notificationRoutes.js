@@ -70,6 +70,9 @@ router.post('/token', notificationController.registerToken);
  *                 type: string
  *               body:
  *                 type: string
+ *               image:
+ *                 type: string
+ *                 description: URL de imagen para mostrar en la notificación
  *               data:
  *                 type: object
  *     responses:

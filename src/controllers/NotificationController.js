@@ -18,13 +18,13 @@ class NotificationController {
     // Endpoint para enviar notificación (Solo para pruebas/demo o administración)
     async sendNotification(req, res) {
         try {
-            const { userId, title, body, data } = req.body;
+            const { userId, title, body, data, image } = req.body;
 
             if (!userId || !title || !body) {
                 return res.status(400).json({ error: 'Faltan datos requeridos (userId, title, body)' });
             }
 
-            const result = await notificationService.sendNotificationToUser(userId, title, body, data);
+            const result = await notificationService.sendNotificationToUser(userId, title, body, data, image);
             res.status(200).json({ message: 'Proceso de envío completado', details: result });
         } catch (error) {
             res.status(500).json({ error: error.message });

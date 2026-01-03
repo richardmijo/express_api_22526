@@ -11,7 +11,7 @@ class NotificationService {
     }
 
     // Enviar una notificación a un usuario específico
-    async sendNotificationToUser(userId, title, body, data = {}) {
+    async sendNotificationToUser(userId, title, body, data = {}, image = null) {
         // 1. Obtener los tokens del usuario
         const tokens = await deviceTokenRepository.getTokensByUserId(userId);
 
@@ -20,28 +20,30 @@ class NotificationService {
             return { success: 0, failure: 0, message: 'Usuario sin dispositivos' };
         }
 
-        // 2. Construir el mensaje
-        const message = {
-            notification: {
-                title: title,
-                body: body
-            },
-            data: data, // Datos adicionales opcionales
-            tokens: tokens // Enviamos a todos los tokens del usuario (Multicast)
-        };
-
+        // 3. Enviar a través de Firebase Admin
         try {
-            // 3. Enviar a través de Firebase Admin
-            // sendMulticast envía a múltiples tokens a la vez
-            const response = await admin.messaging().sendMulticast(message);
+            if (!admin.apps.length) {
+                console.warn('Firebase no inicializado correctamente. Simulando envío.');
+                return { success: 0, failure: 0, message: 'Firebase no inicializado (Simulado)' };
+            }
+
+            // Usamos sendEachForMulticast que es la recomendación actual.
+            console.log(`Intentando enviar a ${tokens.length} dispositivos...`);
+
+            const response = await admin.messaging().sendEachForMulticast({
+                tokens: tokens,
+                notification: {
+                    title: title,
+                    body: body
+                },
+                data: data
+            });
+
             console.log(`Notificación enviada: ${response.successCount} éxitos, ${response.failureCount} fallos.`);
-
-            // Aquí podríamos manejar los tokens inválidos (response.responses[i].error) y borrarlos de la BD
-
             return response;
         } catch (error) {
             console.error('Error enviando notificación:', error);
-            throw new Error('Falló el envío de la notificación');
+            return { success: 0, failure: 0, error: error.message };
         }
     }
 
